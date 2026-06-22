@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GXO Bradford Foosball World Cup</title>
+<style>
+:root{--gxo:#ff5a00;--navy:#0c2340;--bg:#f4f6fa;}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);}
+header{background:linear-gradient(135deg,var(--navy),#1d4f91);color:#fff;text-align:center;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.logo{font-size:64px;font-weight:900;color:var(--gxo)}
+.wrap{overflow-x:auto;padding:20px}
+.bracket{display:flex;gap:60px;min-width:2200px}
+.round{display:flex;flex-direction:column}
+.round h2{background:var(--navy);color:#fff;padding:10px;border-radius:8px;text-align:center}
+.match{background:#fff;width:260px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.12);margin:12px 0;overflow:hidden}
+.team{display:flex;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #eee}
+.team:last-child{border-bottom:none}
+.score{background:var(--gxo);color:#fff;padding:2px 8px;border-radius:4px;font-weight:bold}
+.r16 .match{margin:42px 0}.qf .match{margin:115px 0}.sf .match{margin:250px 0}.final .match{margin:530px 0}
+.champion{margin-top:560px;background:linear-gradient(135deg,#ffb347,var(--gxo));color:#fff;font-size:30px;font-weight:800;width:320px;height:110px;border-radius:16px;display:flex;align-items:center;justify-content:center}
+.note{max-width:1000px;margin:15px auto;background:#fff;padding:15px;border-radius:10px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">GXO</div>
+<h1>Bradford Foosball World Cup</h1>
+<p>Professional Bracket Template</p>
+</header>
+<div class="note">
+Edit only the team names below in the TEAMS array. Scores can be updated in MATCH_RESULTS.
+</div>
+<div class="wrap"><div class="bracket" id="bracket"></div></div>
+
+<script>
+const TEAMS=[
+"TEAM 1","TEAM 2","TEAM 3","TEAM 4","TEAM 5","TEAM 6","TEAM 7","TEAM 8",
+"TEAM 9","TEAM 10","TEAM 11","TEAM 12","TEAM 13","TEAM 14","TEAM 15","TEAM 16",
+"TEAM 17","TEAM 18","TEAM 19","TEAM 20","TEAM 21","TEAM 22","TEAM 23","TEAM 24",
+"TEAM 25","TEAM 26","TEAM 27","TEAM 28","TEAM 29","TEAM 30","TEAM 31","TEAM 32"
+];
+
+const rounds=[
+{title:"Round of 32",matches:16},
+{title:"Last 16",matches:8},
+{title:"Quarter Finals",matches:4},
+{title:"Semi Finals",matches:2},
+{title:"Final",matches:1}
+];
+
+const bracket=document.getElementById('bracket');
+
+rounds.forEach((r,i)=>{
+ const col=document.createElement('div');
+ col.className='round '+(i===1?'r16':i===2?'qf':i===3?'sf':i===4?'final':'');
+ col.innerHTML='<h2>'+r.title+'</h2>';
+ for(let m=0;m<r.matches;m++){
+   const div=document.createElement('div');
+   div.className='match';
+   if(i===0){
+      const t1=TEAMS[m*2]||'';
+      const t2=TEAMS[m*2+1]||'';
+      div.innerHTML=`<div class="team"><span>${t1}</span><span class="score">0</span></div>
+                     <div class="team"><span>${t2}</span><span class="score">0</span></div>`;
+   }else{
+      div.innerHTML=`<div class="team"><span>TBD</span><span class="score">0</span></div>
+                     <div class="team"><span>TBD</span><span class="score">0</span></div>`;
+   }
+   col.appendChild(div);
+ }
+ bracket.appendChild(col);
+});
+
+const champ=document.createElement('div');
+champ.className='champion';
+champ.textContent='🏆 CHAMPION';
+bracket.appendChild(champ);
+</script>
+</body>
+</html>
