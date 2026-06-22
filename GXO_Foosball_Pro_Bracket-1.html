@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GXO Bradford Foosball World Cup</title>
+<style>
+:root{
+--navy:#0b1f3a;
+--orange:#ff5a00;
+--bg:#f4f6f9;
+}
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Segoe UI,Arial,sans-serif;
+background:var(--bg);
+color:#222;
+}
+header{
+background:linear-gradient(135deg,var(--navy),#1d4f91);
+color:white;
+padding:25px;
+text-align:center;
+box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+header h1{margin:0}
+header p{opacity:.9}
+.stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:15px}
+.stat{background:white;color:var(--navy);padding:10px 18px;border-radius:12px;font-weight:700}
+
+.wrapper{overflow-x:auto;padding:30px}
+.bracket{display:flex;gap:60px;min-width:2200px;align-items:flex-start}
+
+.round h2{
+text-align:center;
+background:var(--navy);
+color:white;
+padding:10px;
+border-radius:10px;
+}
+
+.match{
+width:260px;
+background:white;
+border-radius:12px;
+margin:18px 0;
+box-shadow:0 2px 10px rgba(0,0,0,.12);
+overflow:hidden;
+}
+.team{
+display:flex;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid #eee;
+}
+.team:last-child{border-bottom:none}
+.score{
+background:var(--orange);
+color:white;
+padding:2px 8px;
+border-radius:6px;
+font-weight:bold;
+}
+.r16 .match{margin:55px 0}
+.qf .match{margin:135px 0}
+.sf .match{margin:295px 0}
+.final .match{margin:615px 0}
+
+.champion{
+display:flex;
+align-items:center;
+justify-content:center;
+min-width:300px;
+height:120px;
+background:linear-gradient(135deg,#ffb347,var(--orange));
+color:white;
+font-size:32px;
+font-weight:800;
+border-radius:18px;
+margin-top:620px;
+box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+.note{
+max-width:1000px;
+margin:20px auto;
+background:white;
+padding:15px;
+border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🏆 GXO Bradford Foosball World Cup</h1>
+<p>Official Tournament Bracket</p>
+<div class="stats">
+<div class="stat">32 Teams</div>
+<div class="stat">31 Matches</div>
+<div class="stat">1 Champion</div>
+</div>
+</header>
+
+<div class="note">
+<b>How to update:</b> Replace TEAM 1, TEAM 2 etc. with your team names. Update scores after each game and commit the file to GitHub. Everyone else will see the updated bracket.
+</div>
+
+<div class="wrapper">
+<div class="bracket">
+
+<div class="round">
+<h2>Round of 32</h2>
+
+<div class="match">
+<div class="team"><span>TEAM 1</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 2</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 3</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 4</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 5</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 6</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 7</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 8</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 9</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 10</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 11</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 12</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 13</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 14</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 15</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 16</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 17</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 18</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 19</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 20</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 21</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 22</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 23</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 24</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 25</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 26</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 27</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 28</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 29</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 30</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>TEAM 31</span><span class="score">0</span></div>
+<div class="team"><span>TEAM 32</span><span class="score">0</span></div>
+</div>
+</div>
+
+<div class="round r16">
+<h2>Last 16</h2>
+
+<div class="match">
+<div class="team"><span>WINNER 1</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 2</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 3</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 4</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 5</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 6</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 7</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 8</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 9</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 10</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 11</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 12</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 13</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 14</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>WINNER 15</span><span class="score">0</span></div>
+<div class="team"><span>WINNER 16</span><span class="score">0</span></div>
+</div>
+</div>
+
+<div class="round qf">
+<h2>Quarter Finals</h2>
+
+<div class="match">
+<div class="team"><span>QF TEAM 1</span><span class="score">0</span></div>
+<div class="team"><span>QF TEAM 2</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>QF TEAM 3</span><span class="score">0</span></div>
+<div class="team"><span>QF TEAM 4</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>QF TEAM 5</span><span class="score">0</span></div>
+<div class="team"><span>QF TEAM 6</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>QF TEAM 7</span><span class="score">0</span></div>
+<div class="team"><span>QF TEAM 8</span><span class="score">0</span></div>
+</div>
+</div>
+
+<div class="round sf">
+<h2>Semi Finals</h2>
+
+<div class="match">
+<div class="team"><span>SF TEAM 1</span><span class="score">0</span></div>
+<div class="team"><span>SF TEAM 2</span><span class="score">0</span></div>
+</div>
+<div class="match">
+<div class="team"><span>SF TEAM 3</span><span class="score">0</span></div>
+<div class="team"><span>SF TEAM 4</span><span class="score">0</span></div>
+</div>
+</div>
+
+<div class="round final">
+<h2>Final</h2>
+<div class="match">
+<div class="team"><span>FINALIST 1</span><span class="score">0</span></div>
+<div class="team"><span>FINALIST 2</span><span class="score">0</span></div>
+</div>
+</div>
+
+<div class="champion">🏆 CHAMPION</div>
+
+</div>
+</div>
+
+</body>
+</html>
