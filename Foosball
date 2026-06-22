@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bradford Foosball World Cup</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+}
+
+.controls{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+button{
+    padding:10px 20px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.bracket{
+    display:flex;
+    gap:40px;
+    overflow-x:auto;
+}
+
+.round{
+    min-width:250px;
+}
+
+.round h2{
+    text-align:center;
+}
+
+.match{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:10px;
+    margin-bottom:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.team{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:5px 0;
+}
+
+.team input[type=text]{
+    width:140px;
+}
+
+.team input[type=number]{
+    width:50px;
+}
+
+#winner{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:green;
+    margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🏆 Bradford Foosball World Cup</h1>
+
+<div class="controls">
+<button onclick="advanceTournament()">Advance Winners</button>
+</div>
+
+<div class="bracket">
+
+<div class="round">
+<h2>Round of 32</h2>
+<div id="r32"></div>
+</div>
+
+<div class="round">
+<h2>Last 16</h2>
+<div id="r16"></div>
+</div>
+
+<div class="round">
+<h2>Quarter Finals</h2>
+<div id="qf"></div>
+</div>
+
+<div class="round">
+<h2>Semi Finals</h2>
+<div id="sf"></div>
+</div>
+
+<div class="round">
+<h2>Final</h2>
+<div id="final"></div>
+</div>
+
+</div>
+
+<div id="winner"></div>
+
+<script>
+
+const teams = [
+
+"Champions",
+"Doppelgangers",
+
+"Champions 2",
+"Unknowns",
+
+"Vodka & Vegemite FC",
+"Alpha",
+
+"Bradford Warriors",
+"Aaardv",
+
+"PK",
+"Doner Kebab FC",
+
+"Coala Bombers",
+"Shunter City",
+
+"Albanistan AFC",
+"Jerry and Tom",
+
+"JDI Team",
+"Raaamiz",
+
+"Low Loaders",
+"Lucky & Ugly",
+
+"AB Team",
+"1 Short 1 Over",
+
+"BD3 Cuzzy",
+"Royal United",
+
+"The Busby Babes",
+"2Good",
+
+"RoBe Stars",
+"Hygiene Bantams",
+
+"Chachi",
+"Weekend Warriors",
+
+"Barely Athletic",
+"Foosball Legends",
+
+"United",
+"Beer FC"
+
+];
+
+function createMatch(team1="",team2=""){
+    return `
+    <div class="match">
+        <div class="team">
+            <input type="text" value="${team1}">
+            <input type="number" value="0">
+        </div>
+
+        <div class="team">
+            <input type="text" value="${team2}">
+            <input type="number" value="0">
+        </div>
+    </div>
+    `;
+}
+
+function loadRound32(){
+
+    let html="";
+
+    for(let i=0;i<teams.length;i+=2){
+
+        html += createMatch(
+            teams[i],
+            teams[i+1]
+        );
+    }
+
+    document.getElementById("r32").innerHTML=html;
+
+    document.getElementById("r16").innerHTML=
+    Array(8).fill(createMatch()).join("");
+
+    document.getElementById("qf").innerHTML=
+    Array(4).fill(createMatch()).join("");
+
+    document.getElementById("sf").innerHTML=
+    Array(2).fill(createMatch()).join("");
+
+    document.getElementById("final").innerHTML=
+    createMatch();
+}
+
+function getWinners(roundId){
+
+    const matches =
+    document.querySelectorAll(`#${roundId} .match`);
+
+    const winners=[];
+
+    matches.forEach(match=>{
+
+        const teams =
+        match.querySelectorAll(".team");
+
+        const team1 =
+        teams[0].querySelector("input[type=text]").value;
+
+        const team2 =
+        teams[1].querySelector("input[type=text]").value;
+
+        const score1 =
+        parseInt(
+            teams[0].querySelector("input[type=number]").value
+        );
+
+        const score2 =
+        parseInt(
+            teams[1].querySelector("input[type=number]").value
+        );
+
+        winners.push(
+            score1 >= score2 ? team1 : team2
+        );
+
+    });
+
+    return winners;
+}
+
+function populateRound(roundId,winners){
+
+    const matches =
+    document.querySelectorAll(`#${roundId} .match`);
+
+    let index=0;
+
+    matches.forEach(match=>{
+
+        const teams =
+        match.querySelectorAll(".team");
+
+        teams[0].querySelector("input[type=text]").value =
+        winners[index++] || "";
+
+        teams[1].querySelector("input[type=text]").value =
+        winners[index++] || "";
+
+    });
+
+}
+
+function advanceTournament(){
+
+    const r32winners = getWinners("r32");
+    populateRound("r16",r32winners);
+
+    const r16winners = getWinners("r16");
+    populateRound("qf",r16winners);
+
+    const qfwinners = getWinners("qf");
+    populateRound("sf",qfwinners);
+
+    const sfwinners = getWinners("sf");
+    populateRound("final",sfwinners);
+
+    const finalWinner = getWinners("final");
+
+    if(finalWinner.length){
+        document.getElementById("winner").innerHTML =
+        "🏆 Champion: " + finalWinner[0];
+    }
+}
+
+loadRound32();
+
+</script>
+
+</body>
+</html>
