@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GXO Bradford Foosball World Cup</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f4f6fa;
+}
+
+header{
+background:#0b2340;
+color:white;
+text-align:center;
+padding:25px;
+}
+
+.logo{
+font-size:60px;
+font-weight:900;
+color:#ff5a00;
+}
+
+#admin{
+background:white;
+padding:20px;
+margin:20px;
+border-radius:10px;
+box-shadow:0 2px 10px #ccc;
+}
+
+.bracket{
+display:flex;
+gap:60px;
+overflow-x:auto;
+padding:25px;
+}
+
+.round{
+min-width:260px;
+}
+
+.round h2{
+background:#0b2340;
+color:white;
+padding:10px;
+border-radius:8px;
+text-align:center;
+}
+
+.match{
+background:white;
+margin:15px 0;
+padding:10px;
+border-radius:10px;
+box-shadow:0 2px 8px #ccc;
+}
+
+.team{
+display:flex;
+justify-content:space-between;
+margin:6px 0;
+}
+
+input{
+width:45px;
+}
+
+button{
+background:#ff5a00;
+color:white;
+border:0;
+padding:10px 20px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.champ{
+font-size:30px;
+font-weight:bold;
+color:#ff5a00;
+text-align:center;
+margin:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">GXO</div>
+<h1>Bradford Foosball World Cup</h1>
+<p>Official Tournament Bracket</p>
+</header>
+
+
+<div id="admin">
+<h2>Admin Score Update</h2>
+<p>Enter scores then press update. Winners move automatically.</p>
+<button onclick="advance()">UPDATE TOURNAMENT</button>
+<button onclick="resetCup()">RESET</button>
+</div>
+
+
+<div class="bracket">
+
+<div class="round">
+<h2>Round of 32</h2>
+<div id="r32"></div>
+</div>
+
+<div class="round">
+<h2>Last 16</h2>
+<div id="r16"></div>
+</div>
+
+<div class="round">
+<h2>Quarter Finals</h2>
+<div id="qf"></div>
+</div>
+
+<div class="round">
+<h2>Semi Finals</h2>
+<div id="sf"></div>
+</div>
+
+<div class="round">
+<h2>Final</h2>
+<div id="final"></div>
+</div>
+
+</div>
+
+<div class="champ" id="champ">
+🏆 Champion: TBD
+</div>
+
+
+<script>
+
+let teams=[
+"CHAMPINOS","DOPPELGANGERS",
+"CHAMPIONS","DONER KEBAP WITH GARLIC",
+"CHAMPIONS 2","BD3 CUZZY",
+"ROYAL UTD","HYGIENE BANTAMS",
+
+"VODKA+VEGEMITE FC","AAARDD",
+"BARELY ATHLETIC","BRADFORD WARRIORS",
+"1 SHORT 1 OVER","THE BUSBY BABES",
+"CHACHI","ROBE STARS",
+
+"RAAAMIZ","LOW LOADERS",
+"OBI 1 KENOBI 0","WEEKEND WARRIORS",
+"PK","ALBANISTAN AFC",
+"COALA BOMBERS","ALPHA",
+
+"JDI TEAM","2 GOOD",
+"LUCKY + UGLY","AB TEAM",
+"SHUNTER CITY","BYE TO NEXT ROUND",
+"UNKNOWNS","JERRY + TOM"
+];
+
+let rounds={
+r32:teams,
+r16:Array(16).fill(""),
+qf:Array(8).fill(""),
+sf:Array(4).fill(""),
+final:Array(2).fill("")
+};
+
+
+function build(round,id){
+
+let box=document.getElementById(id);
+box.innerHTML="";
+
+for(let i=0;i<round.length;i+=2){
+
+box.innerHTML+=`
+
+<div class="match">
+
+<div class="team">
+<span>${round[i]||"TBD"}</span>
+<input type="number" value="0">
+</div>
+
+<div class="team">
+<span>${round[i+1]||"TBD"}</span>
+<input type="number" value="0">
+</div>
+
+</div>`;
+
+}
+
+}
+
+
+function getWinners(id){
+
+let matches=document.querySelectorAll("#"+id+" .match");
+
+let winners=[];
+
+matches.forEach(m=>{
+
+let names=m.querySelectorAll("span");
+let scores=m.querySelectorAll("input");
+
+if(Number(scores[0].value)>Number(scores[1].value)){
+winners.push(names[0].innerText);
+}
+else if(Number(scores[1].value)>Number(scores[0].value)){
+winners.push(names[1].innerText);
+}
+else{
+winners.push("");
+}
+
+});
+
+return winners;
+
+}
+
+
+function advance(){
+
+rounds.r16=getWinners("r32");
+build(rounds.r16,"r16");
+
+rounds.qf=getWinners("r16");
+build(rounds.qf,"qf");
+
+rounds.sf=getWinners("qf");
+build(rounds.sf,"sf");
+
+rounds.final=getWinners("sf");
+build(rounds.final,"final");
+
+let winner=getWinners("final");
+
+if(winner[0]){
+document.getElementById("champ").innerHTML=
+"🏆 Champion: "+winner[0];
+}
+
+localStorage.setItem("cup",document.body.innerHTML);
+
+}
+
+
+function resetCup(){
+localStorage.clear();
+location.reload();
+}
+
+
+build(rounds.r32,"r32");
+build(rounds.r16,"r16");
+build(rounds.qf,"qf");
+build(rounds.sf,"sf");
+build(rounds.final,"final");
+
+
+</script>
+
+</body>
+</html>
