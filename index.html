@@ -25,13 +25,7 @@ font-weight:900;
 color:#ff5a00;
 }
 
-#admin{
-background:white;
-padding:20px;
-margin:20px;
-border-radius:10px;
-box-shadow:0 2px 10px #ccc;
-}
+
 
 .bracket{
 display:flex;
@@ -66,19 +60,6 @@ justify-content:space-between;
 margin:6px 0;
 }
 
-input{
-width:45px;
-}
-
-button{
-background:#ff5a00;
-color:white;
-border:0;
-padding:10px 20px;
-border-radius:8px;
-font-weight:bold;
-}
-
 .champ{
 font-size:30px;
 font-weight:bold;
@@ -98,12 +79,7 @@ margin:30px;
 </header>
 
 
-<div id="admin">
-<h2>Admin Score Update</h2>
-<p>Enter scores then press update. Winners move automatically.</p>
-<button onclick="advance()">UPDATE TOURNAMENT</button>
-<button onclick="resetCup()">RESET</button>
-</div>
+
 
 
 <div class="bracket">
@@ -143,6 +119,7 @@ margin:30px;
 <script>
 
 let teams=[
+  
 "CHAMPINOS","DOPPELGANGERS",
 "CHAMPIONS","DONER KEBAP WITH GARLIC",
 "CHAMPIONS 2","BD3 CUZZY",
@@ -163,7 +140,29 @@ let teams=[
 "SHUNTER CITY","BYE TO NEXT ROUND",
 "UNKNOWNS","JERRY + TOM"
 ];
+const r32Scores = [
+[0,0],[0,0],[0,0],[0,0],
+[0,0],[0,0],[0,0],[0,0],
+[0,0],[0,0],[0,0],[0,0],
+[0,0],[0,0],[0,0],[0,0]
+];
 
+const r16Scores = [
+[0,0],[0,0],[0,0],[0,0],
+[0,0],[0,0],[0,0],[0,0]
+];
+
+const qfScores = [
+[0,0],[0,0],[0,0],[0,0]
+];
+
+const sfScores = [
+[0,0],[0,0]
+];
+
+const finalScores = [
+[0,0]
+];
 let rounds={
 r32:teams,
 r16:Array(16).fill(""),
@@ -173,12 +172,14 @@ final:Array(2).fill("")
 };
 
 
-function build(round,id){
+function build(round,id,scores){
 
 let box=document.getElementById(id);
 box.innerHTML="";
 
 for(let i=0;i<round.length;i+=2){
+
+let matchScore=scores[Math.floor(i/2)] || [0,0];
 
 box.innerHTML+=`
 
@@ -186,87 +187,67 @@ box.innerHTML+=`
 
 <div class="team">
 <span>${round[i]||"TBD"}</span>
-<input type="number" value="0">
+<span>${matchScore[0]}</span>
 </div>
 
 <div class="team">
 <span>${round[i+1]||"TBD"}</span>
-<input type="number" value="0">
+<span>${matchScore[1]}</span>
 </div>
 
 </div>`;
 
 }
-
 }
 
 
-function getWinners(id){
 
-let matches=document.querySelectorAll("#"+id+" .match");
+
+
+function getWinners(teams,scores){
 
 let winners=[];
 
-matches.forEach(m=>{
+for(let i=0;i<scores.length;i++){
 
-let names=m.querySelectorAll("span");
-let scores=m.querySelectorAll("input");
+let home=teams[i*2];
+let away=teams[i*2+1];
 
-if(Number(scores[0].value)>Number(scores[1].value)){
-winners.push(names[0].innerText);
+let homeScore=scores[i][0];
+let awayScore=scores[i][1];
+
+if(homeScore>awayScore){
+winners.push(home);
 }
-else if(Number(scores[1].value)>Number(scores[0].value)){
-winners.push(names[1].innerText);
+else if(awayScore>homeScore){
+winners.push(away);
 }
 else{
-winners.push("");
+winners.push("TBD");
 }
 
-});
+}
 
 return winners;
-
 }
 
+// Build knockout rounds automatically
 
-function advance(){
+rounds.r16 = getWinners(rounds.r32, r32Scores);
+rounds.qf = getWinners(rounds.r16, r16Scores);
+rounds.sf = getWinners(rounds.qf, qfScores);
+rounds.final = getWinners(rounds.sf, sfScores);
 
-rounds.r16=getWinners("r32");
-build(rounds.r16,"r16");
+let champion = getWinners(rounds.final, finalScores)[0] || "TBD";
 
-rounds.qf=getWinners("r16");
-build(rounds.qf,"qf");
+build(rounds.r32,"r32",r32Scores);
+build(rounds.r16,"r16",r16Scores);
+build(rounds.qf,"qf",qfScores);
+build(rounds.sf,"sf",sfScores);
+build(rounds.final,"final",finalScores);
 
-rounds.sf=getWinners("qf");
-build(rounds.sf,"sf");
-
-rounds.final=getWinners("sf");
-build(rounds.final,"final");
-
-let winner=getWinners("final");
-
-if(winner[0]){
-document.getElementById("champ").innerHTML=
-"🏆 Champion: "+winner[0];
-}
-
-localStorage.setItem("cup",document.body.innerHTML);
-
-}
-
-
-function resetCup(){
-localStorage.clear();
-location.reload();
-}
-
-
-build(rounds.r32,"r32");
-build(rounds.r16,"r16");
-build(rounds.qf,"qf");
-build(rounds.sf,"sf");
-build(rounds.final,"final");
-
+document.getElementById("champ").innerHTML =
+"🏆 Champion: " + champion;
 
 </script>
 
